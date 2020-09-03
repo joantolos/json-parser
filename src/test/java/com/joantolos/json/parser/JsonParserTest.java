@@ -1,11 +1,15 @@
 package com.joantolos.json.parser;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
+import com.joantolos.json.parser.model.AllPrivate;
+import com.joantolos.json.parser.model.Follower;
+import com.joantolos.json.parser.model.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +27,9 @@ public class JsonParserTest {
         joanFollowers.add(new User("Jane Doe", "9101112", null));
         this.joan = new User("Joan", "1234", joanFollowers);
 
-        this.joanJson = "{\"name\":\"Joan\",\"phone\":\"1234\",\"followers\":[{\"name\":\"John Doe\",\"phone\":\"5678\",\"followers\":null},{\"name\":\"Jane Doe\",\"phone\":\"9101112\",\"followers\":null}]}";
+        this.joanJson = "{\"name\":\"Joan\",\"phone\":\"1234\",\"followers\":[{\"name\":\"John Doe\"," +
+                "\"phone\":\"5678\",\"followers\":null,\"bidirectionalFollowers\":[]},{\"name\":\"Jane Doe\"," +
+                "\"phone\":\"9101112\",\"followers\":null,\"bidirectionalFollowers\":[]}],\"bidirectionalFollowers\":[]}";
     }
 
     @Test
@@ -39,30 +45,18 @@ public class JsonParserTest {
         Assert.assertEquals(2, joan.getFollowers().size());
     }
 
-    static class User {
-        private String name;
-        private String phone;
-        private List<User> followers;
+    @Test(expected = JsonMappingException.class)
+    public void shouldRaiseExceptionTryingToSerializeClassWithCircularStructure() throws JsonProcessingException {
+        User user = new User("Joan");
+        Follower follower = new Follower("1", user);
+        user.addFollower(follower);
 
-        public User() {
-        }
-
-        public User(String name, String phone, List<User> followers) {
-            this.name = name;
-            this.phone = phone;
-            this.followers = followers;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public List<User> getFollowers() {
-            return followers;
-        }
+        jsonParser.stringify(follower);
     }
+
+    @Test(expected = InvalidDefinitionException.class)
+    public void shouldRaiseExceptionTryingToSerializeClassWithNoPublicPropertiesOrConstructor() throws JsonProcessingException {
+        jsonParser.stringify(new AllPrivate());
+    }
+
 }
