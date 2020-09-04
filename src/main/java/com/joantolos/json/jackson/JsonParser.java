@@ -1,4 +1,4 @@
-package com.joantolos.json.parser;
+package com.joantolos.json.jackson;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -14,14 +14,14 @@ public class JsonParser {
     }
 
     public String stringify(Object o) throws JsonProcessingException {
-        return this.mapper.writeValueAsString(o);
+        return mapper.writeValueAsString(o);
     }
 
     public Object parse(String json, Class c) throws JsonProcessingException {
-        return this.mapper.readValue(json, c);
+        return mapper.readValue(json, c);
     }
 
     public void ignoreVisibility() {
-        this.mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
     }
 }

@@ -1,4 +1,4 @@
-package com.joantolos.json.parser.model;
+package com.joantolos.json.model;
 
 public class AllPrivate {
     private String privateProperty;

@@ -1,11 +1,11 @@
-package com.joantolos.json.parser;
+package com.joantolos.json.jackson;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
-import com.joantolos.json.parser.model.AllPrivate;
-import com.joantolos.json.parser.model.Follower;
-import com.joantolos.json.parser.model.User;
+import com.joantolos.json.model.AllPrivate;
+import com.joantolos.json.model.Follower;
+import com.joantolos.json.model.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
