@@ -1,10 +1,12 @@
 package com.joantolos.json.parser.model;
 
 public class AllPrivate {
-    private final AllPrivate self = this;
+    private String privateProperty;
 
-    @Override
-    public String toString() {
-        return self.getClass().getName();
+    public AllPrivate() {
+    }
+
+    public AllPrivate(String privateProperty) {
+        this.privateProperty = privateProperty;
     }
 }

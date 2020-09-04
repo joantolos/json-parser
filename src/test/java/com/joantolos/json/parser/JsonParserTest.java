@@ -59,4 +59,10 @@ public class JsonParserTest {
         jsonParser.stringify(new AllPrivate());
     }
 
+    @Test
+    public void shouldSerializeClassWithNoPublicPropertiesOrConstructorWhenIgnoringVisibility() throws JsonProcessingException {
+        jsonParser.ignoreVisibility();
+        Assert.assertNotNull(jsonParser.stringify(new AllPrivate()));
+    }
+
 }
